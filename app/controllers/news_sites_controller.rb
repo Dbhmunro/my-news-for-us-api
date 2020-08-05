@@ -6,8 +6,12 @@ class NewsSitesController < ApplicationController
     end
 
     def create
-        news_site = NewsSite.create(news_site_params)
-        render json: news_site, only: [:id, :state_abbreviation, :name, :locality, :news_outlet, :url]
+        news_site = NewsSite.new(news_site_params)
+        if news_site.save
+            render json: news_site, only: [:id, :state_abbreviation, :name, :locality, :news_outlet, :url]
+        else
+            render json: { "message": "#{news_site.errors.full_messages}" }
+        end
     end
 
     def destroy
