@@ -16,21 +16,19 @@ ActiveRecord::Schema.define(version: 2020_08_04_203825) do
   enable_extension "plpgsql"
 
   create_table "news_sites", force: :cascade do |t|
-    t.string "state_abbreviation"
+    t.string "state_abbreviation", null: false
     t.string "name"
     t.string "locality"
     t.string "news_outlet"
     t.string "url"
-    t.boolean "broken_link"
+    t.boolean "broken_link", default: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
 
-  create_table "states", id: false, force: :cascade do |t|
-    t.string "abbreviation"
+  create_table "states", primary_key: "abbreviation", id: :string, force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
   end
 
+  add_foreign_key "news_sites", "states", column: "state_abbreviation", primary_key: "abbreviation"
 end
