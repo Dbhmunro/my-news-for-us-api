@@ -1,4 +1,10 @@
 class NewsSitesController < ApplicationController
+    
+    def index
+        news_sites = NewsSite.all
+        render json: news_sites.to_json()
+    end
+
     def create
         news_site = NewsSite.create(news_site_params)
         render json: news_site, only: [:id, :state_abbreviation, :name, :locality, :news_outlet, :url]
